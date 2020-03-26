@@ -17,10 +17,10 @@ OrdererOrgs: # orderer节点的组织信息
     # ---------------------------------------------------------------------------
     Specs:
       - Hostname: orderer # 访问这台orderer对应的域名为: orderer.example.com
-#      - Hostname: orderer2
-#      - Hostname: orderer3
-#      - Hostname: orderer4
-#      - Hostname: orderer5
+      - Hostname: orderer2
+      - Hostname: orderer3
+      - Hostname: orderer4
+      - Hostname: orderer5
 
 # ---------------------------------------------------------------------------
 # "PeerOrgs" - Definition of organizations managing peer nodes

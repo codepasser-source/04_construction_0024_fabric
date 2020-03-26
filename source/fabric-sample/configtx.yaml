@@ -19,13 +19,13 @@ Organizations:
     - &OrdererOrg
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: OrdererOrg
+        Name: OrdererOrg # Orderer组织的名称
 
         # ID to load the MSP definition as
-        ID: OrdererMSP
+        ID: OrdererMSP # Orderer组织的ID
 
         # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: crypto-config/ordererOrganizations/example.com/msp
+        MSPDir: crypto-config/ordererOrganizations/example.com/msp # 组织的msp账号信息
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -41,15 +41,15 @@ Organizations:
                 Type: Signature
                 Rule: "OR('OrdererMSP.admin')"
 
-    - &Org1
+    - &OrgGo
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Org1MSP
+        Name: OrgGoMSP # OrgGo组织的名称
 
         # ID to load the MSP definition as
-        ID: Org1MSP
+        ID: OrgGoMSP # OrgGo组织的ID
 
-        MSPDir: crypto-config/peerOrganizations/org1.example.com/msp
+        MSPDir: crypto-config/peerOrganizations/orggo.example.com/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -57,31 +57,31 @@ Organizations:
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('Org1MSP.admin', 'Org1MSP.peer', 'Org1MSP.client')"
+                Rule: "OR('OrgGoMSP.admin', 'OrgGoMSP.peer', 'OrgGoMSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('Org1MSP.admin', 'Org1MSP.client')"
+                Rule: "OR('OrgGoMSP.admin', 'OrgGoMSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('Org1MSP.admin')"
+                Rule: "OR('OrgGoMSP.admin')"
 
         # leave this flag set to true.
-        AnchorPeers:
+        AnchorPeers: # 锚节点，代表所属组织和其他组织进行通信的节点
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.org1.example.com
+            - Host: peer0.orggo.example.com
               Port: 7051
 
-    - &Org2
+    - &OrgJava
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Org2MSP
+        Name: OrgJavaMSP
 
         # ID to load the MSP definition as
-        ID: Org2MSP
+        ID: OrgJavaMSP
 
-        MSPDir: crypto-config/peerOrganizations/org2.example.com/msp
+        MSPDir: crypto-config/peerOrganizations/orgjava.example.com/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -89,19 +89,19 @@ Organizations:
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('Org2MSP.admin', 'Org2MSP.peer', 'Org2MSP.client')"
+                Rule: "OR('OrgJavaMSP.admin', 'OrgJavaMSP.peer', 'OrgJavaMSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('Org2MSP.admin', 'Org2MSP.client')"
+                Rule: "OR('OrgJavaMSP.admin', 'OrgJavaMSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('Org2MSP.admin')"
+                Rule: "OR('OrgJavaMSP.admin')"
 
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.org2.example.com
+            - Host: peer0.orgjava.example.com
               Port: 9051
 
 ################################################################################
@@ -205,23 +205,23 @@ Orderer: &OrdererDefaults
 
     # Orderer Type: The orderer implementation to start
     # Available types are "solo" and "kafka"
-    OrdererType: solo
+    OrdererType: solo # 排序服务实现(共识机制)
 
     Addresses:
-        - orderer.example.com:7050
+        - orderer.example.com:7050 # orderer节点的地址
 
     # Batch Timeout: The amount of time to wait before creating a batch
-    BatchTimeout: 2s
+    BatchTimeout: 2s # 产生区块的时间(分批间隔)
 
     # Batch Size: Controls the number of messages batched into a block
     BatchSize:
 
         # Max Message Count: The maximum number of messages to permit in a batch
-        MaxMessageCount: 10
+        MaxMessageCount: 10 # 产生区块的最大交易数量
 
         # Absolute Max Bytes: The absolute maximum number of bytes allowed for
         # the serialized messages in a batch.
-        AbsoluteMaxBytes: 99 MB
+        AbsoluteMaxBytes: 99 MB # 产生区块的最大数据量
 
         # Preferred Max Bytes: The preferred maximum number of bytes allowed for
         # the serialized messages in a batch. A message larger than the preferred
@@ -299,7 +299,7 @@ Channel: &ChannelDefaults
 ################################################################################
 Profiles:
 
-    TwoOrgsOrdererGenesis:
+    TwoOrgsOrdererGenesis: # 生成创世块文件
         <<: *ChannelDefaults
         Orderer:
             <<: *OrdererDefaults
@@ -310,16 +310,17 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                    - *Org1
-                    - *Org2
-    TwoOrgsChannel:
+                    - *OrgGo
+                    - *OrgJava
+
+    TwoOrgsChannel: # 生成通道文件
         Consortium: SampleConsortium
         <<: *ChannelDefaults
         Application:
             <<: *ApplicationDefaults
             Organizations:
-                - *Org1
-                - *Org2
+                - *OrgGo
+                - *OrgJava
             Capabilities:
                 <<: *ApplicationCapabilities
 
@@ -345,8 +346,8 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                - *Org1
-                - *Org2
+                - *OrgGo
+                - *OrgJava
 
     SampleMultiNodeEtcdRaft:
         <<: *ChannelDefaults
@@ -395,5 +396,5 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                - *Org1
-                - *Org2
+                - *OrgGo
+                - *OrgJava
