@@ -95,3 +95,7 @@ configtxgen -profile SampleMultiNodeEtcdRaft -outputBlock ./channel-artifacts/ge
 # fabric-configtxgen-channel.sh
 configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID course-channel
 ```
+
+#### 1.4 配置网络启动
+
+> docker-compose 配置
