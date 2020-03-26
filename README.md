@@ -29,7 +29,7 @@
 
 #### 1.1 生成证书
 
-> 证书配置文件
+> cryptogen配置文件
 
 ```
 crypto-config.yaml
@@ -42,10 +42,56 @@ crypto-config.yaml
 cryptogen generate --config=crypto-config.yaml
 ```
 
-> 生成结果
+#### 1.2 证书结构
 
-```shell script
-
+```
 cd crypto-config
 
+├── ordererOrganizations
+│   └── example.com
+│       ├── ca
+│       ├── msp
+│       ├── orderers
+│       ├── tlsca
+│       └── users
+└── peerOrganizations
+    ├── orggo.example.com
+    │   ├── ca
+    │   ├── msp
+    │   ├── peers
+    │   ├── tlsca
+    │   └── users
+    └── orgjava.example.com
+        ├── ca
+        ├── msp
+        ├── peers
+        ├── tlsca
+        └── users
+```
+
+#### 1.3 网络构建配置(组织\联盟\生成创世块文件\通道文件)
+
+> configtxgen配置文件
+
+```
+configtx.yaml
+```
+
+> 生成创世区块文件
+
+```shell script
+# fabric-configtxgen-genesis.sh
+configtxgen -profile TwoOrgsOrdererGenesis -outputBlock ./channel-artifacts/genesis.block -channelID course-channel
+```
+```shell script
+# TODO kafka
+configtxgen -profile SampleDevModeKafka -outputBlock ./channel-artifacts/genesis.block -channelID course-channel
+# TODO Raft
+configtxgen -profile SampleMultiNodeEtcdRaft -outputBlock ./channel-artifacts/genesis.block -channelID course-channel
+```
+
+> 生成通道文件
+```shell script
+# fabric-configtxgen-channel.sh
+configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID course-channel
 ```
