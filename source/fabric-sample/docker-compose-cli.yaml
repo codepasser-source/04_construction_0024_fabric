@@ -5,89 +5,218 @@
 
 version: '2'
 
-volumes:
-  orderer.example.com:
-  peer0.org1.example.com:
-  peer1.org1.example.com:
-  peer0.org2.example.com:
-  peer1.org2.example.com:
-
 networks:
-  byfn:
+  course: # 网络名称
 
 services:
-
-  orderer.example.com:
-    extends:
-      file:   base/docker-compose-base.yaml
-      service: orderer.example.com
+  orderer.example.com: # Orderer组织orderer节点配置
+    image: hyperledger/fabric-orderer:latest
     container_name: orderer.example.com
+    environment:
+      - FABRIC_LOGGING_LEVEL=DEBUG # 日志级别：CRITICAL | ERROR | WARNING | NOTICE | INFO | DEBUG
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0 # orderer节点监听的地址
+      - ORDERER_GENERAL_LISTENPORT=7050 # orderer节点监听的端口
+      - ORDERER_GENERAL_GENESISPROFILE=Orderer
+      - ORDERER_GENERAL_GENESISMETHOD=file # 创世块的来源，file表示来自于文件
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block # 指定创世块文件的路径
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP # Orderer组织的MSP，与configtx.yaml文件配置保持一直
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp # 当前节点的 MSP 账号路径
+      - ORDERER_GENERAL_TLS_ENABLED=true # 通信时是否使用TLS加密
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key # 私钥文件
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt # 证书文件
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt] # 根证书文件
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric # orderer容器的工作目录
+    command: orderer
+    volumes: # 宿主机和容器之间的挂载配置
+      - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ./crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls:/var/hyperledger/orderer/tls
+    ports:
+      - 7050:7050 # 宿主机端口:容器端口
     networks:
-      - byfn
+      - course # orderer节点所在网络
 
-  peer0.org1.example.com:
-    container_name: peer0.org1.example.com
-    extends:
-      file:  base/docker-compose-base.yaml
-      service: peer0.org1.example.com
+  peer0.orggo.example.com: # OrgGo组织中peer0节点的配置
+    image: hyperledger/fabric-peer:latest
+    container_name: peer0.orggo.example.com
+    environment:
+      - FABRIC_LOGGING_LEVEL=DEBUG # 日志级别：CRITICAL | ERROR | WARNING | NOTICE | INFO | DEBUG
+      - CORE_VM_DOCKER_ATTACHSTDOUT=true
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock # docker的本地套接字地址, 不需要改
+      - CORE_PEER_ID=peer0.orggo.example.com # peer 节点名字
+      - CORE_PEER_ADDRESSAUTODETECT=true
+      - CORE_PEER_ADDRESS=peer0.orggo.example.com:7051 # 当前peer节点的地址信息
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.orggo.example.com:7051 # 如果不设置，其他节点不知道该节点的存在
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true # 自动选举leader节点
+      - CORE_PEER_GOSSIP_ORGLEADER=false # 当前节点是不是 leader 节点
+      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      - CORE_PEER_LOCALMSPID=OrgGoMSP # OrgGo组织的MSP，与configtx.yaml文件配置保持一致
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
+      - CORE_PEER_TLS_ENABLED=true # 通信时是否使用TLS加密
+      - CORE_PEER_TLS_SERVERHOSTOVERRIDE=peer0.orggo.example.com
+      - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/tls/ca.crt
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./crypto-config/peerOrganizations/orggo.example.com/peers/peer0.orggo.example.com/msp:/var/hyperledger/msp
+      - ./crypto-config/peerOrganizations/orggo.example.com/peers/peer0.orggo.example.com/tls:/var/hyperledger/tls
+    ports:
+      - 7051:7051
+      - 7053:7053
+    depends_on:
+      - orderer.example.com
+    links:
+      - orderer.example.com
     networks:
-      - byfn
+      - course
 
-  peer1.org1.example.com:
-    container_name: peer1.org1.example.com
-    extends:
-      file:  base/docker-compose-base.yaml
-      service: peer1.org1.example.com
+  peer1.orggo.example.com: # OrgGo组织中peer1节点的配置
+    image: hyperledger/fabric-peer:latest
+    container_name: peer1.orggo.example.com
+    environment:
+      - FABRIC_LOGGING_LEVEL=DEBUG # 日志级别：CRITICAL | ERROR | WARNING | NOTICE | INFO | DEBUG
+      - CORE_VM_DOCKER_ATTACHSTDOUT=true
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock # docker的本地套接字地址, 不需要改
+      - CORE_PEER_ID=peer1.orggo.example.com # peer 节点名字
+      - CORE_PEER_ADDRESSAUTODETECT=true
+      - CORE_PEER_ADDRESS=peer1.orggo.example.com:7051 # 当前peer节点的地址信息
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.orggo.example.com:7051 # 如果不设置，其他节点不知道该节点的存在
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true # 自动选举leader节点
+      - CORE_PEER_GOSSIP_ORGLEADER=false # 当前节点是不是 leader 节点
+      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      - CORE_PEER_LOCALMSPID=OrgGoMSP # OrgGo组织的MSP，与configtx.yaml文件配置保持一致
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
+      - CORE_PEER_TLS_ENABLED=true # 通信时是否使用TLS加密
+      - CORE_PEER_TLS_SERVERHOSTOVERRIDE=peer1.orggo.example.com
+      - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/tls/ca.crt
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./crypto-config/peerOrganizations/orggo.example.com/peers/peer1.orggo.example.com/msp:/var/hyperledger/msp
+      - ./crypto-config/peerOrganizations/orggo.example.com/peers/peer1.orggo.example.com/tls:/var/hyperledger/tls
+    ports:
+      - 8051:7051
+      - 8053:7053
+    depends_on:
+      - orderer.example.com
+    links:
+      - orderer.example.com
     networks:
-      - byfn
+      - course
 
-  peer0.org2.example.com:
-    container_name: peer0.org2.example.com
-    extends:
-      file:  base/docker-compose-base.yaml
-      service: peer0.org2.example.com
+  peer0.orgjava.example.com: # OrgJava组织中peer0节点的配置
+    image: hyperledger/fabric-peer:latest
+    container_name: peer0.orgjava.example.com
+    environment:
+      - FABRIC_LOGGING_LEVEL=DEBUG # 日志级别：CRITICAL | ERROR | WARNING | NOTICE | INFO | DEBUG
+      - CORE_VM_DOCKER_ATTACHSTDOUT=true
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock # docker的本地套接字地址, 不需要改
+      - CORE_PEER_ID=peer0.orgojava.example.com # peer 节点名字
+      - CORE_PEER_ADDRESSAUTODETECT=true
+      - CORE_PEER_ADDRESS=peer0.orgjava.example.com:7051 # 当前peer节点的地址信息
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.orgjava.example.com:7051 # 如果不设置，其他节点不知道该节点的存在
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true # 自动选举leader节点
+      - CORE_PEER_GOSSIP_ORGLEADER=false # 当前节点是不是 leader 节点
+      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      - CORE_PEER_LOCALMSPID=OrgJavaMSP # OrgJava组织的MSP，与configtx.yaml文件配置保持一致
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
+      - CORE_PEER_TLS_ENABLED=true # 通信时是否使用TLS加密
+      - CORE_PEER_TLS_SERVERHOSTOVERRIDE=peer0.orgjava.example.com
+      - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/tls/ca.crt
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./crypto-config/peerOrganizations/orgjava.example.com/peers/peer0.orgjava.example.com/msp:/var/hyperledger/msp
+      - ./crypto-config/peerOrganizations/orgjava.example.com/peers/peer0.orgjava.example.com/tls:/var/hyperledger/tls
+    ports:
+      - 9051:7051
+      - 9053:7053
+    depends_on:
+      - orderer.example.com
+    links:
+      - orderer.example.com
     networks:
-      - byfn
+      - course
 
-  peer1.org2.example.com:
-    container_name: peer1.org2.example.com
-    extends:
-      file:  base/docker-compose-base.yaml
-      service: peer1.org2.example.com
+  peer1.orgjava.example.com: # OrgJava组织中peer1节点的配置
+    image: hyperledger/fabric-peer:latest
+    container_name: peer1.orgjava.example.com
+    environment:
+      - FABRIC_LOGGING_LEVEL=DEBUG # 日志级别：CRITICAL | ERROR | WARNING | NOTICE | INFO | DEBUG
+      - CORE_VM_DOCKER_ATTACHSTDOUT=true
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock # docker的本地套接字地址, 不需要改
+      - CORE_PEER_ID=peer1.orgjava.example.com # peer 节点名字
+      - CORE_PEER_ADDRESSAUTODETECT=true
+      - CORE_PEER_ADDRESS=peer1.orgjava.example.com:7051 # 当前peer节点的地址信息
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.orgjava.example.com:7051 # 如果不设置，其他节点不知道该节点的存在
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true # 自动选举leader节点
+      - CORE_PEER_GOSSIP_ORGLEADER=false # 当前节点是不是 leader 节点
+      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      - CORE_PEER_LOCALMSPID=OrgJavaMSP # OrgJava组织的MSP，与configtx.yaml文件配置保持一致
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
+      - CORE_PEER_TLS_ENABLED=true # 通信时是否使用TLS加密
+      - CORE_PEER_TLS_SERVERHOSTOVERRIDE=peer1.orgjava.example.com
+      - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/tls/ca.crt
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./crypto-config/peerOrganizations/orgjava.example.com/peers/peer1.orgjava.example.com/msp:/var/hyperledger/msp
+      - ./crypto-config/peerOrganizations/orgjava.example.com/peers/peer1.orgjava.example.com/tls:/var/hyperledger/tls
+    ports:
+      - 10051:7051
+      - 10053:7053
+    depends_on:
+      - orderer.example.com
+    links:
+      - orderer.example.com
     networks:
-      - byfn
+      - course
 
   cli:
     container_name: cli
-    image: hyperledger/fabric-tools:$IMAGE_TAG
+    image: hyperledger/fabric-tools:latest
     tty: true
     stdin_open: true
     environment:
       - GOPATH=/opt/gopath
+      - FABRIC_LOGGING_LEVEL=DEBUG
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      #- FABRIC_LOGGING_SPEC=DEBUG
-      - FABRIC_LOGGING_SPEC=INFO
       - CORE_PEER_ID=cli
-      - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
-      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_PEER_ADDRESS=peer0.orggo.example.com:7051 # 控制peer节点地址
+      - CORE_PEER_LOCALMSPID=OrgGoMSP
       - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
-      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orggo.example.com/peers/peer0.orggo.example.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orggo.example.com/peers/peer0.orggo.example.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orggo.example.com/peers/peer0.orggo.example.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orggo.example.com/users/Admin@orggo.example.com/msp
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: /bin/bash
     volumes:
-        - /var/run/:/host/var/run/
-        - ./../chaincode/:/opt/gopath/src/github.com/chaincode
-        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
-        - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
-        - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+      - /var/run/:/host/var/run/
+      - ./chaincode/:/opt/gopath/src/github.com/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
     depends_on:
       - orderer.example.com
-      - peer0.org1.example.com
-      - peer1.org1.example.com
-      - peer0.org2.example.com
-      - peer1.org2.example.com
+      - peer0.orggo.example.com
+      - peer1.orggo.example.com
+      - peer0.orgjava.example.com
+      - peer1.orgjava.example.com
     networks:
-      - byfn
+      - course
