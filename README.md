@@ -98,4 +98,13 @@ configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/c
 
 #### 1.4 配置网络启动
 
-> docker-compose 配置
+> docker-compose 配置文件
+```
+docker-compose.yaml
+```
+
+> 启动
+
+```shell script
+docker-compose -f docker-compose.yml up -d
+```
