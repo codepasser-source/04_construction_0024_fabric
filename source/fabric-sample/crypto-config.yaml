@@ -8,26 +8,30 @@
 # ---------------------------------------------------------------------------
 OrdererOrgs:
   # ---------------------------------------------------------------------------
-  # Orderer 节点的组织信息
+  # Orderer
   # ---------------------------------------------------------------------------
-  - Name: Orderer # 组织名称
-    Domain: example.com # 访问节点的域名
+  - Name: Orderer
+    Domain: example.com
     # ---------------------------------------------------------------------------
     # "Specs" - See PeerOrgs below for complete description
     # ---------------------------------------------------------------------------
     Specs:
-      - Hostname: orderer # 访问这台orderer对应的域名为: orderer.example.com
+      - Hostname: orderer
+      - Hostname: orderer2
+      - Hostname: orderer3
+      - Hostname: orderer4
+      - Hostname: orderer5
 
 # ---------------------------------------------------------------------------
 # "PeerOrgs" - Definition of organizations managing peer nodes
 # ---------------------------------------------------------------------------
 PeerOrgs:
   # ---------------------------------------------------------------------------
-  # Org1 peer节点的组织信息
+  # Org1
   # ---------------------------------------------------------------------------
-  - Name: OrgGo # 组织名称
-    Domain: orggo.example.com # 访问组织节点的域名
-    EnableNodeOUs: true # 是否支持node
+  - Name: Org1
+    Domain: org1.example.com
+    EnableNodeOUs: true
     # ---------------------------------------------------------------------------
     # "Specs"
     # ---------------------------------------------------------------------------
@@ -62,7 +66,7 @@ PeerOrgs:
     # name collisions
     # ---------------------------------------------------------------------------
     Template:
-      Count: 2 # 生成2个peer节点：节点地址为peer0.orggo.example.com、peer1.orggo.example.com
+      Count: 2
       # Start: 5
       # Hostname: {{.Prefix}}{{.Index}} # default
     # ---------------------------------------------------------------------------
@@ -71,12 +75,12 @@ PeerOrgs:
     # Count: The number of user accounts _in addition_ to Admin
     # ---------------------------------------------------------------------------
     Users:
-      Count: 1 # 创建1个用户，默认用户名为User1
+      Count: 1
   # ---------------------------------------------------------------------------
   # Org2: See "Org1" for full specification
   # ---------------------------------------------------------------------------
-  - Name: OrgJava
-    Domain: orgjava.example.com
+  - Name: Org2
+    Domain: org2.example.com
     EnableNodeOUs: true
     Template:
       Count: 2
