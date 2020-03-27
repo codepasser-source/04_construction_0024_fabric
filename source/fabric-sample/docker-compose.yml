@@ -5,8 +5,16 @@
 
 version: '2'
 
+volumes: # 磁盘映射
+  orderer.example.com:
+  peer0.orggo.example.com:
+  peer1.orggo.example.com:
+  peer0.orgjava.example.com:
+  peer1.orgjava.example.com:
+#  cli:
+
 networks:
-  course: # 网络名称
+  course: # 网络映射
 
 services:
   orderer.example.com: # Orderer组织orderer节点配置
