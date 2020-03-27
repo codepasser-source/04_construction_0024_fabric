@@ -16,4 +16,16 @@
 
 ### 过程纪要
 
-#### TODO
+#### 密钥生成
+
+> 配置文件
+
+```shell script
+crypto-config.yaml
+```
+
+> 生成密钥证书
+
+```shell script
+cryptogen generate --config=./crypto-config.yaml
+```
