@@ -1,8 +1,40 @@
 #!/bin/bash
+echo
+echo "##########################################################"
+echo "##### Clean crypto config ################################"
+echo "##########################################################"
 rm -rf ./crypto-config/ordererOrganizations
 rm -rf ./crypto-config/peerOrganizations
+
+echo
+echo "##########################################################"
+echo "##### Clean channel artifacts ############################"
+echo "##########################################################"
 rm -rf ./channel-artifacts/*.block
 rm -rf ./channel-artifacts/*.tx
-git status
+
+
+echo
+echo "##########################################################"
+echo "##### Docker container running instances #################"
+echo "##########################################################"
+docker ps -a
+
+echo
+echo "##########################################################"
+echo "##### Docker container currently existing network ########"
+echo "##########################################################"
 docker network list
+
+echo
+echo "##########################################################"
+echo "##### Docker container currently existing volume #########"
+echo "##########################################################"
 docker volume list
+
+echo
+echo "##########################################################"
+echo "##### Git branch status ##################################"
+echo "##########################################################"
+git br
+git st
