@@ -98,6 +98,7 @@ configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts
 > 服务启动
 
 ```shell script
+# fabric-docker-up.sh
 docker-compose -f docker-compose.yaml up -d
 ```
 
@@ -108,3 +109,11 @@ docker-compose -f docker-compose.yaml up -d
 - 加入通道
 
 - 更新锚节点
+
+
+> 服务关闭
+
+```shell script
+# fabric-docker-down.sh
+docker-compose -f docker-compose.yaml down
+```
