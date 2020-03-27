@@ -106,5 +106,74 @@ docker-compose.yaml
 > 启动
 
 ```shell script
+# fabric-docker-up.sh
 docker-compose -f docker-compose.yml up -d
+```
+
+> 停止
+
+```shell script
+# fabric-docker-down.sh
+docker-compose -f docker-compose.yml down
+```
+
+#### 1.5 创建通道和加入通道
+
+> 进入cli(fabric-tool docker实例)
+```shell script
+docker exec -it cli bash
+```
+
+> 创建通道
+```shell script
+peer channel create -o orderer.example.com:7050 -c course-channel -f ./channel-artifacts/channel.tx --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+```
+
+> 加入通道
+
+- peer0.orggo.example.com节点
+```shell script
+export CORE_PEER_ADDRESS=peer0.orggo.example.com:7051 
+export CORE_PEER_LOCALMSPID=OrgGoMSP
+export CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orggo.example.com/peers/peer0.orggo.example.com/tls/server.crt
+export CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orggo.example.com/peers/peer0.orggo.example.com/tls/server.key
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orggo.example.com/peers/peer0.orggo.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orggo.example.com/users/Admin@orggo.example.com/msp
+peer channel join -b ./channel-artifacts/course-channel.block
+```
+
+- peer1.orggo.example.com节点
+```shell script
+export CORE_PEER_ADDRESS=peer1.orggo.example.com:7051
+export CORE_PEER_LOCALMSPID=OrgGoMSP
+export CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orggo.example.com/peers/peer1.orggo.example.com/tls/server.crt
+export CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orggo.example.com/peers/peer1.orggo.example.com/tls/server.key
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orggo.example.com/peers/peer1.orggo.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orggo.example.com/users/Admin@orggo.example.com/msp
+
+peer channel join -b ./channel-artifacts/course-channel.block
+```
+
+- peer0.orgjava.example.com节点
+```shell script
+export CORE_PEER_ADDRESS=peer0.orgjava.example.com:7051
+export CORE_PEER_LOCALMSPID=OrgJavaMSP
+export CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgjava.example.com/peers/peer0.orgjava.example.com/tls/server.crt
+export CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgjava.example.com/peers/peer0.orgjava.example.com/tls/server.key
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgjava.example.com/peers/peer0.orgjava.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgjava.example.com/users/Admin@orgjava.example.com/msp
+
+peer channel join -b ./channel-artifacts/course-channel.block
+```
+
+- peer1.orgjava.example.com节点
+```shell script
+export CORE_PEER_ADDRESS=peer1.orgjava.example.com:7051
+export CORE_PEER_LOCALMSPID=OrgJavaMSP
+export CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgjava.example.com/peers/peer1.orgjava.example.com/tls/server.crt
+export CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgjava.example.com/peers/peer1.orgjava.example.com/tls/server.key
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgjava.example.com/peers/peer1.orgjava.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgjava.example.com/users/Admin@orgjava.example.com/msp
+
+peer channel join -b ./channel-artifacts/course-channel.block
 ```
