@@ -101,4 +101,10 @@ configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts
 docker-compose -f docker-compose.yaml up -d
 ```
 
-> 创建
+> 创建通道
+
+- 创建通道
+
+- 加入通道
+
+- 更新锚节点
