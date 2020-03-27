@@ -13,6 +13,8 @@ echo "##########################################################"
 rm -rf ./channel-artifacts/*.block
 rm -rf ./channel-artifacts/*.tx
 
+docker network prune
+docker volume prune
 
 echo
 echo "##########################################################"
