@@ -115,6 +115,8 @@ docker-compose -f docker-compose.yml up -d
 ```shell script
 # fabric-docker-down.sh
 docker-compose -f docker-compose.yml down
+docker volume prune
+docker network prune
 ```
 
 #### 1.5 创建通道和加入通道
@@ -128,6 +130,7 @@ docker exec -it cli bash
 > 创建通道
 ```shell script
 peer channel create -o orderer.example.com:7050 -c course-channel -f ./channel-artifacts/channel.tx --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+peer channel create -o orderer.example.com:7050 -c course-channel -f ./channel-artifacts/channel.tx --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
 ```
 
 > 加入通道
@@ -140,6 +143,7 @@ export CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/pee
 export CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orggo.example.com/peers/peer0.orggo.example.com/tls/server.key
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orggo.example.com/peers/peer0.orggo.example.com/tls/ca.crt
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orggo.example.com/users/Admin@orggo.example.com/msp
+
 peer channel join -b ./channel-artifacts/course-channel.block
 ```
 

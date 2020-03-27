@@ -11,7 +11,7 @@ volumes: # 磁盘映射
   peer1.orggo.example.com:
   peer0.orgjava.example.com:
   peer1.orgjava.example.com:
-#  cli:
+  cli:
 
 networks:
   course: # 网络映射
