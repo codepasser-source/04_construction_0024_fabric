@@ -198,7 +198,7 @@ services:
       - FABRIC_LOGGING_LEVEL=DEBUG
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - CORE_PEER_ID=cli
-      - CORE_PEER_ADDRESS=peer0.orggo.example.com:7051 # 控制peer节点地址
+      - CORE_PEER_ADDRESS=peer0.orggo.example.com:7051 # 默认环境变量控制peer0.orggo节点
       - CORE_PEER_LOCALMSPID=OrgGoMSP
       - CORE_PEER_TLS_ENABLED=true
       - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orggo.example.com/peers/peer0.orggo.example.com/tls/server.crt
