@@ -121,6 +121,7 @@ docker-compose -f docker-compose.yml down
 
 > 进入cli(fabric-tool docker实例)
 ```shell script
+# fabric-docker-cli.sh
 docker exec -it cli bash
 ```
 
