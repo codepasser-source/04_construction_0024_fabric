@@ -98,7 +98,7 @@ configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts
 > 服务启动
 
 ```shell script
-docker-compose -f docker-compose-cli.yaml up -d
+docker-compose -f docker-compose.yaml up -d
 ```
 
 > 创建
