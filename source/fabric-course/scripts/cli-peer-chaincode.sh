@@ -54,6 +54,7 @@ peer chaincode install -n mycc -v 1.0 -p github.com/chaincode/chaincode_example0
 ## for java chaincode -p takes the absolute path to the java chaincode
 #peer chaincode install -n mycc -v 1.0 -l java -p /opt/gopath/src/github.com/chaincode/chaincode_example02/java/
 
+
 echo "#################################################################"
 echo "#######    Chaincode instantiate orderer.example.com:7050    ####"
 echo "#################################################################"
