@@ -105,7 +105,7 @@ docker-compose -f docker-compose.yaml up -d
 > 创建通道
 
 ```shell script
-# cli-peer-channel.sh
+# ./scripts/cli-peer-channel.sh
 # 创建通道
 peer channel create -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
 # 移动channel block 文件提供其他节点加入复用
@@ -115,7 +115,7 @@ mv $CHANNEL_NAME.block ./channel-artifacts/
 > 加入通道
 
 ```shell script
-# cli-peer-channel.sh
+# ./scripts/cli-peer-channel.sh
 ## Channel join peer0.org1.example.com:7051
 export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 export CORE_PEER_LOCALMSPID=Org1MSP
@@ -145,7 +145,7 @@ peer channel join -b ./channel-artifacts/$CHANNEL_NAME.block
 > 更新锚节点
 
 ```shell script
-# cli-peer-channel.sh
+# ./scripts/cli-peer-channel.sh
 ## Anchors change peer0.org1.example.com:7051
 export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 export CORE_PEER_LOCALMSPID=Org1MSP
@@ -162,7 +162,7 @@ peer channel update -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-ar
 > 安装链码
 
 ```shell script
-# cli-peer-chaincode.sh
+# ./scripts/cli-peer-chaincode.sh
 ## Chaincode install peer0.org1.example.com:7051
 export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 export CORE_PEER_LOCALMSPID=Org1MSP
@@ -207,7 +207,7 @@ peer chaincode install -n mycc -v 1.0 -p /opt/gopath/src/github.com/chaincode/ch
 ```
 
 ```shell script
-# cli-peer-chaincode.sh
+# ./scripts/cli-peer-chaincode.sh
 ## Chaincode instantiate orderer.example.com:7050
 export CHANNEL_NAME=fabric-course
 ## Golang
