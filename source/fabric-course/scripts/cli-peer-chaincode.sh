@@ -22,7 +22,7 @@ export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/pee
 echo_environment
 ## Golang
 # this installs the Go chaincode. For go chaincode -p takes the relative path from $GOPATH/src
-peer chaincode install -n mycc -v 1.0 -p github.com/chaincode/chaincode_example02/go/
+peer chaincode install -n mycc -v 1.0 -p /opt/gopath/src/github.com/chaincode/chaincode_example02/go/
 ## Node
 ## make note of the -l node to indicate "node" chaincode
 ## for node chaincode -p takes the absolute path to the node.js chaincode
@@ -44,7 +44,7 @@ export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/pee
 echo_environment
 ## Golang
 # this installs the Go chaincode. For go chaincode -p takes the relative path from $GOPATH/src
-peer chaincode install -n mycc -v 1.0 -p github.com/chaincode/chaincode_example02/go/
+peer chaincode install -n mycc -v 1.0 -p /opt/gopath/src/github.com/chaincode/chaincode_example02/go/
 ## Node
 ## make note of the -l node to indicate "node" chaincode
 ## for node chaincode -p takes the absolute path to the node.js chaincode
