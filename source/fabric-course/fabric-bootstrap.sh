@@ -19,16 +19,16 @@ echo
 # ====================== bootstrap
 
 # Generate certificates
-./fabric-cryptogen-generate.sh
+./fabric-bootstrap-crypto-generate.sh
 
 # Generating Orderer Genesis block [Solo]
-./fabric-configtx-genesis-solo.sh
+./fabric-bootstrap-configtx-genesis-solo.sh
 
 # Generating channel configuration transaction 'channel.tx'
-./fabric-configtx-channel.sh
+./fabric-bootstrap-configtx-channel.sh
 
 # Generating anchor peer update
-./fabric-configtx-anchors.sh
+./fabric-bootstrap-configtx-anchors.sh
 
 # Docker compose up
 ./fabric-docker-up.sh
