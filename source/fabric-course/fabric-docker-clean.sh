@@ -13,6 +13,8 @@ echo "##########################################################"
 rm -rf ./channel-artifacts/*.block
 rm -rf ./channel-artifacts/*.tx
 
+docker rm -f $(docker ps -aq)
+docker rmi -f $(docker images | grep mycc | awk '{print $3}')
 docker network prune
 docker volume prune
 
