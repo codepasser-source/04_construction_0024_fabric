@@ -13,6 +13,10 @@ echo "##########################################################"
 rm -rf ./channel-artifacts/*.block
 rm -rf ./channel-artifacts/*.tx
 
+echo
+echo "##########################################################"
+echo "##### Clean docker environment ###########################"
+echo "##########################################################"
 docker rm -f $(docker ps -aq)
 docker rmi -f $(docker images | grep mycc | awk '{print $3}')
 docker network prune
