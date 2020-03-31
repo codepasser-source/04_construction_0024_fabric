@@ -9,6 +9,15 @@ echo
 echo "Build fabric course"
 echo
 
+# ====================== down
+
+# Docker compose down
+./fabric-docker-down.sh
+# Docker environment clean
+./fabric-docker-clean.sh
+
+# ====================== bootstrap
+
 # Generate certificates
 ./fabric-cryptogen-generate.sh
 
@@ -20,3 +29,6 @@ echo
 
 # Generating anchor peer update
 ./fabric-configtx-anchors.sh
+
+# Docker compose up
+./fabric-docker-up.sh
