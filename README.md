@@ -23,7 +23,7 @@
 - 脚本
 
 ```shell script
-# fabric-cryptogen-generate.sh
+# fabric-bootstrap-crypto-generate.sh
 cryptogen generate --config=./crypto-config.yaml
 ```
 
@@ -58,19 +58,19 @@ cryptogen generate --config=./crypto-config.yaml
 - 生成 Solo 排序服务的创世区块(默认排序服务实现)
 
 ```shell script
-# fabric-configtx-genesis-solo.sh
+# fabric-bootstrap-configtx-genesis-solo.sh
 configtxgen -profile TwoOrgsOrdererGenesis -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block
 ```
 
 - 生成 Raft 排序服务的创世区块
 
 ```shell script
-# fabric-configtx-genesis-raft.sh
+# fabric-bootstrap-configtx-genesis-raft.sh
 configtxgen -profile SampleMultiNodeEtcdRaft -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block
 ```
 
 ```shell script
-# fabric-configtx-genesis-kafka.sh
+# fabric-bootstrap-configtx-genesis-kafka.sh
 configtxgen -profile SampleDevModeKafka -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block
 ```
 
@@ -79,14 +79,14 @@ configtxgen -profile SampleDevModeKafka -channelID course-sys-channel -outputBlo
 - 生成通道配置
 
 ```shell script
-# fabric-configtx-channel.sh
+# fabric-bootstrap-configtx-channel.sh
 configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID fabric-course
 ```
 
 - 生成锚节点定义
 
 ```shell script
-# fabric-configtx-anchors.sh
+# fabric-bootstrap-configtx-anchors.sh
 # Org1 锚点定义
 configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID fabric-course -asOrg Org1MSP
 # Org2 锚点定义
@@ -218,7 +218,33 @@ peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /opt/gopat
 #peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n mycc -l java -v 1.0 -c '{"Args":["init","a", "100", "b","200"]}' -P "AND ('Org1MSP.peer','Org2MSP.peer')"
 ```
 
-> 服务关闭
+#### 链码调用
+
+```shell script
+# ./scripts/peer-chaincode.sh
+## Chaincode invoking peer0.org1.example.com:7051
+export CHANNEL_NAME=fabric-course
+export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
+export CORE_PEER_LOCALMSPID=Org1MSP
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","a"]}'
+peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","b"]}'
+peer chaincode invoke -o orderer.example.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n mycc --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"Args":["invoke","a","b","10"]}'
+peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","a"]}'
+peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","b"]}'
+
+## Chaincode invoking peer0.org2.example.com:9051
+export CHANNEL_NAME=fabric-course
+export CORE_PEER_ADDRESS=peer0.org2.example.com:9051
+export CORE_PEER_LOCALMSPID=Org2MSP
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","a"]}'
+peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","b"]}'
+```
+
+#### 网络关闭
 
 ```shell script
 # fabric-docker-down.sh
