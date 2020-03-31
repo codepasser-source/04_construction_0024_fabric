@@ -2,4 +2,4 @@
 echo "##########################################################"
 echo "#####  Generating Orderer Genesis block [Solo] ###########"
 echo "##########################################################"
-configtxgen -profile TwoOrgsOrdererGenesis -channelID byfn-sys-channel -outputBlock ./channel-artifacts/genesis.block
+configtxgen -profile TwoOrgsOrdererGenesis -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block

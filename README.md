@@ -59,19 +59,19 @@ cryptogen generate --config=./crypto-config.yaml
 
 ```shell script
 # fabric-configtx-genesis-solo.sh
-configtxgen -profile TwoOrgsOrdererGenesis -channelID byfn-sys-channel -outputBlock ./channel-artifacts/genesis.block
+configtxgen -profile TwoOrgsOrdererGenesis -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block
 ```
 
 - 生成 Raft 排序服务的创世区块
 
 ```shell script
 # fabric-configtx-genesis-raft.sh
-configtxgen -profile SampleMultiNodeEtcdRaft -channelID byfn-sys-channel -outputBlock ./channel-artifacts/genesis.block
+configtxgen -profile SampleMultiNodeEtcdRaft -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block
 ```
 
 ```shell script
 # fabric-configtx-genesis-kafka.sh
-configtxgen -profile SampleDevModeKafka -channelID byfn-sys-channel -outputBlock ./channel-artifacts/genesis.block
+configtxgen -profile SampleDevModeKafka -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block
 ```
 
 > 生成通道配置交易
