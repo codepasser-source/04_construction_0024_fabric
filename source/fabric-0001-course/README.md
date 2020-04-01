@@ -2,35 +2,42 @@
 
 ### 前言
 
+> 教程参考
+
+- [`first-network`](https://hyperledger-fabric.readthedocs.io/zh_CN/release-1.4/build_network.html#)
+ 
 #### 环境准备 
 
 > 00.fabric-environment.md
 > 01.fabric-server-build.md
 > 02.fabric-install.md
 
-#### 引言
-
-> 结构目录参考first-network
-
 #### 示例说明
 
-- 状态存储
+> 链码语言
 
-    * `goleveldb`
+* `node`
 
-- 排序服务
-    * `solo`
+> 状态存储
 
-- 组织 
-    * `Org1`
-    * `Org2`
-    * `Order`
+* `goleveldb`
 
-- 节点 
-    * `peer0.org1.example.com`
-    * `peer1.org1.example.com`
-    * `peer0.org2.example.com`
-    * `peer1.org2.example.com`
+> 排序服务
+
+* `solo`
+
+> 组织 
+
+* `Org1`
+* `Org2`
+* `Order`
+
+> 节点 
+
+* `peer0.org1.example.com`
+* `peer1.org1.example.com`
+* `peer0.org2.example.com`
+* `peer1.org2.example.com`
 
 - 排序节点 `orderer.example.com`
 
@@ -38,6 +45,24 @@
     `无`
 
 - 单机环境
+
+#### 示例脚本
+
+> 启动
+
+- `fabric-bootstrap.sh`
+
+> 通道\链码初始化操作
+
+- `fabric-bootstrap-cli-exec.sh`
+
+> 停止
+
+- `fabric-docker-down.sh`
+
+> 清理
+
+- `fabric-docker-clean.sh`
 
 ### 过程纪要
 
@@ -87,12 +112,14 @@ cryptogen generate --config=./crypto-config.yaml
 configtxgen -profile TwoOrgsOrdererGenesis -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block
 ```
 
-- 生成 Raft 排序服务的创世区块
+- 生成 Raft 排序服务的创世区块 TODO
 
 ```shell script
 # fabric-bootstrap-configtx-genesis-raft.sh
 configtxgen -profile SampleMultiNodeEtcdRaft -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block
 ```
+
+- 生成 Kafka 排序服务的创世区块 TODO
 
 ```shell script
 # fabric-bootstrap-configtx-genesis-kafka.sh
@@ -273,5 +300,8 @@ peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","b"]}'
 
 ```shell script
 # fabric-docker-down.sh
+# 停止
 docker-compose -f docker-compose.yaml down
+# 清理
+# fabric-docker-clean.sh
 ```
