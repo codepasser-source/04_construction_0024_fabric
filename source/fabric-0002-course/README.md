@@ -21,6 +21,7 @@
 > 状态存储
 
 * `couchdb`
+* `[couchdb utils]http://172.16.20.163:5984/_utils`
 
 > 排序服务
 
