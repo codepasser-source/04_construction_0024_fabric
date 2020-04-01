@@ -66,60 +66,16 @@
 
 > 生成证书
 
-- 脚本
-
 ```shell script
 # fabric-bootstrap-crypto-generate.sh
 cryptogen generate --config=./crypto-config.yaml
 ```
 
-- 生成结果
-
-```text
-├── crypto-config
-│   ├── ordererOrganizations
-│   │   └── example.com
-│   │       ├── ca
-│   │       ├── msp
-│   │       ├── orderers
-│   │       ├── tlsca
-│   │       └── users
-│   └── peerOrganizations
-│       ├── org1.example.com
-│       │   ├── ca
-│       │   ├── msp
-│       │   ├── peers
-│       │   ├── tlsca
-│       │   └── users
-│       └── org2.example.com
-│           ├── ca
-│           ├── msp
-│           ├── peers
-│           ├── tlsca
-│           └── users
-```
-
 > 生成创世区块
-
-- 生成 Solo 排序服务的创世区块(默认排序服务实现)
 
 ```shell script
 # fabric-bootstrap-configtx-genesis-solo.sh
 configtxgen -profile TwoOrgsOrdererGenesis -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block
-```
-
-- 生成 Raft 排序服务的创世区块 TODO
-
-```shell script
-# fabric-bootstrap-configtx-genesis-raft.sh
-configtxgen -profile SampleMultiNodeEtcdRaft -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block
-```
-
-- 生成 Kafka 排序服务的创世区块 TODO
-
-```shell script
-# fabric-bootstrap-configtx-genesis-kafka.sh
-configtxgen -profile SampleDevModeKafka -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block
 ```
 
 > 生成通道配置交易
@@ -147,7 +103,7 @@ configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts
 
 ```shell script
 # fabric-docker-up.sh
-docker-compose -f docker-compose.yaml up -d
+docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml up -d
 ```
 
 > 创建通道
@@ -302,7 +258,7 @@ peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","b"]}'
 ```shell script
 # fabric-docker-down.sh
 # 停止
-docker-compose -f docker-compose.yaml down
+docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml down
 # 清理
 # fabric-docker-clean.sh
 ```
