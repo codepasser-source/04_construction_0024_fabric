@@ -20,6 +20,7 @@ export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/pee
 echo_environment
 # this installs the Go chaincode. For go chaincode -p takes the relative path from $GOPATH/src
 peer chaincode install -n mycc -v 1.0 -p github.com/chaincode/chaincode_example02/go/
+peer chaincode install -n marbles -v 1.0 -p github.com/chaincode/marbles02/go/
 peer chaincode list --installed
 
 echo "#################################################################"
@@ -31,6 +32,7 @@ export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
 echo_environment
 peer chaincode install -n mycc -v 1.0 -p github.com/chaincode/chaincode_example02/go/
+peer chaincode install -n marbles -v 1.0 -p github.com/chaincode/marbles02/go/
 peer chaincode list --installed
 
 echo "#################################################################"
@@ -42,6 +44,7 @@ export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
 echo_environment
 peer chaincode install -n mycc -v 1.0 -p github.com/chaincode/chaincode_example02/go/
+peer chaincode install -n marbles -v 1.0 -p github.com/chaincode/marbles02/go/
 peer chaincode list --installed
 
 echo "#################################################################"
@@ -53,6 +56,7 @@ export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
 echo_environment
 peer chaincode install -n mycc -v 1.0 -p github.com/chaincode/chaincode_example02/go/
+peer chaincode install -n marbles -v 1.0 -p github.com/chaincode/marbles02/go/
 peer chaincode list --installed
 
 echo "#################################################################"
@@ -65,4 +69,5 @@ export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
 echo_environment
 peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init","a", "100", "b","200"]}' -P "AND ('Org1MSP.peer','Org2MSP.peer')"
+peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -v 1.0 -c '{"Args":["init"]}' -P "OR ('Org1MSP.peer','Org2MSP.peer')"
 peer chaincode list --instantiated -C $CHANNEL_NAME
