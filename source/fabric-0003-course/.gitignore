@@ -1,0 +1,4 @@
+/crypto-config/ordererOrganizations
+/crypto-config/peerOrganizations
+/channel-artifacts/*.block
+/channel-artifacts/*.tx
