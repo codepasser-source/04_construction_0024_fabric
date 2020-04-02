@@ -17,10 +17,10 @@ networks:
 services:
 
   orderer2.example.com:
-    container_name: orderer2.example.com
     extends:
       file: base/peer-base.yaml
       service: orderer-base
+    container_name: orderer2.example.com
     volumes:
       - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp:/var/hyperledger/orderer/msp
@@ -32,10 +32,10 @@ services:
       - course
 
   orderer3.example.com:
-    container_name: orderer3.example.com
     extends:
       file: base/peer-base.yaml
       service: orderer-base
+    container_name: orderer3.example.com
     volumes:
       - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp:/var/hyperledger/orderer/msp
@@ -47,10 +47,10 @@ services:
       - course
 
   orderer4.example.com:
-    container_name: orderer4.example.com
     extends:
       file: base/peer-base.yaml
       service: orderer-base
+    container_name: orderer4.example.com
     volumes:
       - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/msp:/var/hyperledger/orderer/msp
@@ -62,10 +62,10 @@ services:
       - course
 
   orderer5.example.com:
-    container_name: orderer5.example.com
     extends:
       file: base/peer-base.yaml
       service: orderer-base
+    container_name: orderer5.example.com
     volumes:
       - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/msp:/var/hyperledger/orderer/msp
