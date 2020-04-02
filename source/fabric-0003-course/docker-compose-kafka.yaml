@@ -26,6 +26,8 @@ services:
     volumes:
       - zookeeper.example.com:/data
       - zookeeper.example.com:/datalog
+    ports:
+      - 2181:2181
     networks:
       - course
 
@@ -45,5 +47,7 @@ services:
       - KAFKA_LOG_RETENTION_MS=-1
       - KAFKA_MIN_INSYNC_REPLICAS=1
       - KAFKA_DEFAULT_REPLICATION_FACTOR=1
+    ports:
+      - 9092:9092
     networks:
       - course
