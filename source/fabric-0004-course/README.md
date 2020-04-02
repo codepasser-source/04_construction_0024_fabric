@@ -1,4 +1,4 @@
-## Fabric - 开发示例 0001
+## Fabric - 开发示例 0003
 
 ### 前言
 
@@ -16,15 +16,20 @@
 
 > 链码语言
 
-* `node`
+* `go`
 
 > 状态存储
 
-* `goleveldb`
+* `couchdb`
+
+    * `[couchdb utils](http://172.16.20.163:5984/_utils)`
+    * `[couchdb utils](http://172.16.20.163:6984/_utils)`
+    * `[couchdb utils](http://172.16.20.163:7984/_utils)`
+    * `[couchdb utils](http://172.16.20.163:8984/_utils)`
 
 > 排序服务
 
-* `solo`
+* `raft`
 
 > 组织 
 
@@ -66,46 +71,18 @@
 
 > 生成证书
 
-- 脚本
-
 ```shell script
 # fabric-bootstrap-crypto-generate.sh
 cryptogen generate --config=./crypto-config.yaml
 ```
 
-- 生成结果
-
-```text
-├── crypto-config
-│   ├── ordererOrganizations
-│   │   └── example.com
-│   │       ├── ca
-│   │       ├── msp
-│   │       ├── orderers
-│   │       ├── tlsca
-│   │       └── users
-│   └── peerOrganizations
-│       ├── org1.example.com
-│       │   ├── ca
-│       │   ├── msp
-│       │   ├── peers
-│       │   ├── tlsca
-│       │   └── users
-│       └── org2.example.com
-│           ├── ca
-│           ├── msp
-│           ├── peers
-│           ├── tlsca
-│           └── users
-```
-
 > 生成创世区块
 
-- 生成 Solo 排序服务的创世区块(默认排序服务实现)
+- 生成 Raft 排序服务的创世区块 TODO
 
 ```shell script
-# fabric-bootstrap-configtx-genesis-solo.sh
-configtxgen -profile TwoOrgsOrdererGenesis -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block
+# fabric-bootstrap-configtx-genesis-raft.sh
+configtxgen -profile SampleMultiNodeEtcdRaft -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block
 ```
 
 > 生成通道配置交易
@@ -133,7 +110,7 @@ configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts
 
 ```shell script
 # fabric-docker-up.sh
-docker-compose -f docker-compose.yaml up -d
+docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml up -d
 ```
 
 > 创建通道
@@ -202,28 +179,28 @@ export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 export CORE_PEER_LOCALMSPID=Org1MSP
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
-peer chaincode install -n mycc -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/chaincode_example02/node/
+peer chaincode install -n marbles -v 1.0 -p github.com/chaincode/marbles02/go/
 peer chaincode list --installed
 ## Chaincode install peer1.org1.example.com:8051
 export CORE_PEER_ADDRESS=peer1.org1.example.com:8051
 export CORE_PEER_LOCALMSPID=Org1MSP
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/ca.crt
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
-peer chaincode install -n mycc -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/chaincode_example02/node/
+peer chaincode install -n marbles -v 1.0 -p github.com/chaincode/marbles02/go/
 peer chaincode list --installed
 ## Chaincode install peer0.org2.example.com:9051
 export CORE_PEER_ADDRESS=peer0.org2.example.com:9051
 export CORE_PEER_LOCALMSPID=Org2MSP
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
-peer chaincode install -n mycc -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/chaincode_example02/node/
+peer chaincode install -n marbles -v 1.0 -p github.com/chaincode/marbles02/go/
 peer chaincode list --installed
 ## Chaincode install peer1.org2.example.com:10051
 export CORE_PEER_ADDRESS=peer1.org2.example.com:10051
 export CORE_PEER_LOCALMSPID=Org2MSP
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/ca.crt
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
-peer chaincode install -n mycc -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/chaincode_example02/node/
+peer chaincode install -n marbles -v 1.0 -p github.com/chaincode/marbles02/go/
 peer chaincode list --installed
 ```
 
@@ -253,7 +230,7 @@ export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 export CORE_PEER_LOCALMSPID=Org1MSP
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
-peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n mycc -l node -v 1.0 -c '{"Args":["init","a", "100", "b","200"]}' -P "AND ('Org1MSP.peer','Org2MSP.peer')"
+peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -v 1.0 -c '{"Args":["init"]}' -P "OR ('Org1MSP.peer','Org2MSP.peer')"
 peer chaincode list --instantiated -C $CHANNEL_NAME
 ```
 
@@ -267,20 +244,15 @@ export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 export CORE_PEER_LOCALMSPID=Org1MSP
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
-peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","a"]}'
-peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","b"]}'
-peer chaincode invoke -o orderer.example.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n mycc --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"Args":["invoke","a","b","10"]}'
-peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","a"]}'
-peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","b"]}'
-
-## Chaincode invoking peer0.org2.example.com:9051
-export CHANNEL_NAME=fabric-course
-export CORE_PEER_ADDRESS=peer0.org2.example.com:9051
-export CORE_PEER_LOCALMSPID=Org2MSP
-export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
-export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
-peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","a"]}'
-peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","b"]}'
+peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -c '{"Args":["initMarble","marble1","blue","35","tom"]}'
+peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -c '{"Args":["initMarble","marble2","red","50","tom"]}'
+peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -c '{"Args":["initMarble","marble3","blue","70","tom"]}'
+peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -c '{"Args":["transferMarble","marble2","jerry"]}'
+peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -c '{"Args":["transferMarblesBasedOnColor","blue","jerry"]}'
+peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -c '{"Args":["delete","marble1"]}'
+peer chaincode query -C $CHANNEL_NAME -n marbles -c '{"Args":["readMarble","marble2"]}'
+peer chaincode query -C $CHANNEL_NAME -n marbles -c '{"Args":["getHistoryForMarble","marble1"]}'
+peer chaincode query -C $CHANNEL_NAME -n marbles -c '{"Args":["queryMarblesByOwner","jerry"]}'
 ```
 
 #### 网络关闭
@@ -288,7 +260,7 @@ peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","b"]}'
 ```shell script
 # fabric-docker-down.sh
 # 停止
-docker-compose -f docker-compose.yaml down
+docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml down
 # 清理
 # fabric-docker-clean.sh
 ```
