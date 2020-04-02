@@ -10,6 +10,9 @@
 
 version: '2'
 
+volumes:
+  zookeeper.example.com:
+
 networks:
   course:
 
@@ -20,14 +23,17 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 32181
       ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - zookeeper.example.com:/data
+      - zookeeper.example.com:/datalog
     networks:
-    - course
+      - course
 
   kafka.example.com:
     container_name: kafka.example.com
     image: hyperledger/fabric-kafka:$IMAGE_TAG
     depends_on:
-    - zookeeper.example.com
+      - zookeeper.example.com
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper.example.com:2181
@@ -40,4 +46,4 @@ services:
       - KAFKA_MIN_INSYNC_REPLICAS=1
       - KAFKA_DEFAULT_REPLICATION_FACTOR=1
     networks:
-    - course
+      - course
