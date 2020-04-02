@@ -7,9 +7,13 @@ version: '2'
 
 volumes:
   couchdb0:
+  couchdb0-config:
   couchdb1:
+  couchdb1-config:
   couchdb2:
+  couchdb2-config:
   couchdb3:
+  couchdb3-config:
 
 networks:
   course:
@@ -26,6 +30,7 @@ services:
     # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
     # for example map it to utilize Fauxton User Interface in dev environments.
     volumes:
+      - couchdb0-config:/opt/couchdb/etc/local.d/
       - couchdb0:/opt/couchdb/data
     ports:
       - "5984:5984"
@@ -55,6 +60,7 @@ services:
     # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
     # for example map it to utilize Fauxton User Interface in dev environments.
     volumes:
+      - couchdb1-config:/opt/couchdb/etc/local.d/
       - couchdb1:/opt/couchdb/data
     ports:
       - "6984:5984"
@@ -84,6 +90,7 @@ services:
     # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
     # for example map it to utilize Fauxton User Interface in dev environments.
     volumes:
+      - couchdb2-config:/opt/couchdb/etc/local.d/
       - couchdb2:/opt/couchdb/data
     ports:
       - "7984:5984"
@@ -113,6 +120,7 @@ services:
     # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
     # for example map it to utilize Fauxton User Interface in dev environments.
     volumes:
+      - couchdb3-config:/opt/couchdb/etc/local.d/
       - couchdb3:/opt/couchdb/data
     ports:
       - "8984:5984"
