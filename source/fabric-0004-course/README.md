@@ -78,7 +78,7 @@ cryptogen generate --config=./crypto-config.yaml
 
 > 生成创世区块
 
-- 生成 Raft 排序服务的创世区块 TODO
+- 生成 Raft 排序服务的创世区块
 
 ```shell script
 # fabric-bootstrap-configtx-genesis-raft.sh
