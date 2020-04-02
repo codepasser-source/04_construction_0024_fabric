@@ -31,6 +31,20 @@
 
 * `kafka`
 
+```shell script
+# kafka操作
+docker exec -it kafka.example.com bash
+cd /opt/kafka/bin
+# 查看kafka topic 列表
+./kafka-topics.sh --zookeeper zookeeper.example.com:2181 --list
+
+# 查看kafka topic 明细
+./kafka-topics.sh --zookeeper zookeeper.example.com:2181 --describe --topic fabric-course
+./kafka-topics.sh --zookeeper zookeeper.example.com:2181 --describe --topic course-sys-channel
+
+# 查看kafka 日志
+docker logs -f kafka.example.com
+```
 > 组织 
 
 * `Org1`
