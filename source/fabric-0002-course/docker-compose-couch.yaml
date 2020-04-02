@@ -29,7 +29,7 @@ services:
       - couchdb0:/opt/couchdb/etc/local.d
       - couchdb0:/opt/couchdb/data
     ports:
-      - "5984:5984"
+      - 5984:5984
     networks:
       - course
 
@@ -59,7 +59,7 @@ services:
       - couchdb1:/opt/couchdb/etc/local.d
       - couchdb1:/opt/couchdb/data
     ports:
-      - "6984:5984"
+      - 6984:5984
     networks:
       - course
 
@@ -89,7 +89,7 @@ services:
       - couchdb2:/opt/couchdb/etc/local.d
       - couchdb2:/opt/couchdb/data
     ports:
-      - "7984:5984"
+      - 7984:5984
     networks:
       - course
 
@@ -119,7 +119,7 @@ services:
       - couchdb3:/opt/couchdb/etc/local.d
       - couchdb3:/opt/couchdb/data
     ports:
-      - "8984:5984"
+      - 8984:5984
     networks:
       - course
 
