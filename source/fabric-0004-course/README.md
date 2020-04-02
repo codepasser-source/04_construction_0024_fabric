@@ -110,7 +110,7 @@ configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts
 
 ```shell script
 # fabric-docker-up.sh
-docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml up -d
+docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml -f docker-compose-etcdraft.yaml up -d
 ```
 
 > 创建通道
@@ -260,7 +260,7 @@ peer chaincode query -C $CHANNEL_NAME -n marbles -c '{"Args":["queryMarblesByOwn
 ```shell script
 # fabric-docker-down.sh
 # 停止
-docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml down
+docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml -f docker-compose-etcdraft.yaml down
 # 清理
 # fabric-docker-clean.sh
 ```
