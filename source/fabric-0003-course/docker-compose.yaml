@@ -11,6 +11,7 @@ volumes:
   peer1.org1.example.com:
   peer0.org2.example.com:
   peer1.org2.example.com:
+  cli:
 
 networks:
   course:
@@ -83,6 +84,7 @@ services:
         - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts/
         - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
         - ./chaincode:/opt/gopath/src/github.com/chaincode/
+        - cli:/etc/hyperledger/fabric/
     depends_on:
       - orderer.example.com
       - peer0.org1.example.com
