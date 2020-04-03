@@ -25,7 +25,7 @@ echo "##########################################################"
 echo "##### Clean docker environment ###########################"
 echo "##########################################################"
 docker rm -f $(docker ps -aq)
-docker rmi -f $(docker images | grep marbles | awk '{print $3}')
+docker rmi -f $(docker images | grep fabcar | awk '{print $3}')
 docker network prune
 docker volume prune
 
