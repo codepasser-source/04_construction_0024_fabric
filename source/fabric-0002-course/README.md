@@ -44,12 +44,13 @@
 * `peer0.org2.example.com`
 * `peer1.org2.example.com`
 
-- 排序节点 `orderer.example.com`
+> 排序节点 
 
-- CA
-    `无`
+* `orderer.example.com`
 
-- 单机环境
+> CA
+
+* `无`
 
 #### 示例脚本
 
