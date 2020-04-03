@@ -33,5 +33,8 @@ echo
 # Generating anchor peer update
 ./fabric-bootstrap-configtx-anchors.sh
 
+# Generate certificates application cpp files
+./fabric-bootstrap-ccp-generate.sh
+
 # Docker compose up
 ./fabric-docker-up.sh

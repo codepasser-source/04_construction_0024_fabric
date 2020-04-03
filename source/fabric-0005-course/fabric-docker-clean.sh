@@ -15,6 +15,13 @@ rm -rf ./channel-artifacts/*.tx
 
 echo
 echo "##########################################################"
+echo "##### Clean application cpp ##############################"
+echo "##########################################################"
+rm -rf ./application/connection-org*.json
+rm -rf ./application/connection-org*.yaml
+
+echo
+echo "##########################################################"
 echo "##### Clean docker environment ###########################"
 echo "##########################################################"
 docker rm -f $(docker ps -aq)
