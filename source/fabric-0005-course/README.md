@@ -67,6 +67,12 @@ docker logs -f kafka.example.com
 * `ca.org1.example.com`
 * `ca.org2.example.com`
 
+> 单机环境
+
+> 应用程序
+
+* cpp
+
 #### 示例脚本
 
 > 启动

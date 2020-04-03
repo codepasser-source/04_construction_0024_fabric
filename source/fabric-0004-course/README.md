@@ -53,6 +53,8 @@
 * `ca.org1.example.com`
 * `ca.org2.example.com`
 
+> 单机环境
+
 #### 示例脚本
 
 > 启动
