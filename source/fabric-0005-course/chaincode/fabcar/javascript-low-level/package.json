@@ -1,12 +1,14 @@
 {
-	"name": "marbles",
+	"name": "fabcar",
 	"version": "1.0.0",
-	"description": "marbles chaincode implemented in node.js",
+	"description": "fabcar chaincode implemented in node.js",
 	"engines": {
 		"node": ">=8.4.0",
 		"npm": ">=5.3.0"
 	},
-	"scripts": { "start" : "node marbles_chaincode.js" },
+	"scripts": {
+		"start": "node fabcar.js"
+	},
 	"engine-strict": true,
 	"license": "Apache-2.0",
 	"dependencies": {
