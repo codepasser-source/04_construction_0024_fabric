@@ -19,6 +19,7 @@ echo "##### Clean application cpp ##############################"
 echo "##########################################################"
 rm -rf ./application/connection-org*.json
 rm -rf ./application/connection-org*.yaml
+rm -rf ./application/*/*/wallet/*
 
 echo
 echo "##########################################################"
