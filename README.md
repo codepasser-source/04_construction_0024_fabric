@@ -1,5 +1,25 @@
 ### 04_construction_0024_fabric ###
 
+#### 过程
+
+> GO LEVEL DB(SOLO)
+
+> CouchDB
+
+> Kafka
+
+> EtcdRaft
+
+> CA
+
+> Private Data
+
+> Logpout
+
+> Cluster
+
+#### 示例说明
+
 > fabric-0001-course
 
 |    链码语言    |    状态存储    |    排序服务    |    组织    |    节点    |    排序节点    |    CA    |    集群    |
