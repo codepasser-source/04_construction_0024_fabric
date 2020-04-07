@@ -71,7 +71,7 @@ docker logs -f kafka.example.com
 
 > 应用程序
 
-* cpp
+* fabcar
 
 #### 示例脚本
 
@@ -294,6 +294,34 @@ peer chaincode invoke -o orderer.example.com:7050 \
       -c '{"function":"initLedger","Args":[]}' \
       --waitForEvent
 peer chaincode query -C $CHANNEL_NAME -n fabcar -c '{"function":"queryAllCars","Args":[]}'
+```
+
+#### 应用程序
+
+> 安装
+
+```shell script
+cd ./application/fabcar/javascript
+npm install
+```
+
+> 注册admin
+
+```shell script
+node enrollAdmin.js
+```
+
+> 注册user1
+
+```shell script
+node registerUser.js
+```
+
+> 调用
+
+```shell script
+node invoke.js
+node query.js
 ```
 
 #### 网络关闭
