@@ -22,7 +22,8 @@ echo Starting monitoring on all containers on the network ${DOCKER_NETWORK}
 docker kill logspout 2> /dev/null 1>&2 || true
 docker rm logspout 2> /dev/null 1>&2 || true
 
-docker run -d --name="logspout" \
+docker run -d \
+        --name=logspout \
         --volume=/var/run/docker.sock:/var/run/docker.sock \
         --publish=127.0.0.1:${PORT}:80 \
         --network  ${DOCKER_NETWORK} \
