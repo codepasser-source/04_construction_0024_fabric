@@ -304,3 +304,9 @@ docker-compose -f docker-compose.yaml down
 # 清理
 # fabric-docker-clean.sh
 ```
+
+#### 网络监视
+
+```shell script
+# fabric-docker-monitor.sh
+```
