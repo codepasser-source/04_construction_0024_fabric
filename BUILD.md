@@ -115,3 +115,7 @@ export CODEPASSERSOURCE=/data/src/github.com/codepasser-source
 git co -b v1.4.6 v1.4.6
 make release
 ```
+
+```shell script
+git clone git@github.com:codepasser-source/04_construction_0024_fabric.git
+```
