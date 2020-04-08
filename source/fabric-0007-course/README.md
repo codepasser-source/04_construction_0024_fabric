@@ -83,7 +83,7 @@ docker logs -f kafka.example.com
 
     * crypto
     * configtx [kafka]
-    * cpp
+    * ccp
 
 - 启动order节点
 
