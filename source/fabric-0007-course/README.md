@@ -77,6 +77,8 @@ docker logs -f kafka.example.com
 
 #### 构建过程
 
+> 创建swarm overlay网络,并建立docker集群
+
 > orderer
 
 - 生成构建
