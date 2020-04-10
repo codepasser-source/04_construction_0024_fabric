@@ -1,4 +1,4 @@
-## Fabric - 开发示例 0005
+## Fabric - 开发示例 0004
 
 ### 前言
 
@@ -29,22 +29,8 @@
 
 > 排序服务
 
-* `kafka`
+* `etcdRaft`
 
-```shell script
-# kafka操作
-docker exec -it kafka.example.com bash
-cd /opt/kafka/bin
-# 查看kafka topic 列表
-./kafka-topics.sh --zookeeper zookeeper.example.com:2181 --list
-
-# 查看kafka topic 明细
-./kafka-topics.sh --zookeeper zookeeper.example.com:2181 --describe --topic fabric-course
-./kafka-topics.sh --zookeeper zookeeper.example.com:2181 --describe --topic course-sys-channel
-
-# 查看kafka 日志
-docker logs -f kafka.example.com
-```
 > 组织 
 
 * `Org1`
@@ -100,11 +86,11 @@ cryptogen generate --config=./crypto-config.yaml
 
 > 生成创世区块
 
-- 生成 Kafka 排序服务的创世区块
+- 生成 Raft 排序服务的创世区块
 
 ```shell script
-# fabric-bootstrap-configtx-genesis-kafka.sh
-configtxgen -profile SampleDevModeKafka -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block
+# fabric-bootstrap-configtx-genesis-raft.sh
+configtxgen -profile SampleMultiNodeEtcdRaft -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block
 ```
 
 > 生成通道配置交易
@@ -143,13 +129,13 @@ echo "$(yaml_ccp $ORG $P0PORT $P1PORT $CAPORT $PEERPEM $CAPEM)" > ./application/
 ```shell script
 # fabric-docker-up.sh
 # Exclude CA
-docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml -f docker-compose-kafka.yaml up -d
+docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml -f docker-compose-etcdraft.yaml up -d
 # Include CA
 export COURSE_CA1_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org1.example.com/ca && ls *_sk)
 export COURSE_CA2_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org2.example.com/ca && ls *_sk)
-echo "========== $COURSE_CA1_PRIVATE_KEY: "$COURSE_CA1_PRIVATE_KEY" =========="
-echo "========== $COURSE_CA2_PRIVATE_KEY: "$COURSE_CA2_PRIVATE_KEY" =========="
-docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml -f docker-compose-kafka.yaml -f docker-compose-ca.yaml up -d
+echo "========== COURSE_CA1_PRIVATE_KEY: $COURSE_CA1_PRIVATE_KEY =========="
+echo "========== COURSE_CA2_PRIVATE_KEY: $COURSE_CA2_PRIVATE_KEY =========="
+docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml -f docker-compose-etcdraft.yaml -f docker-compose-ca.yaml up -d
 ```
 
 > 创建通道
@@ -330,9 +316,9 @@ node query.js
 # fabric-docker-down.sh
 # 停止
 # Exclude CA
-docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml -f docker-compose-kafka.yaml down
+docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml -f docker-compose-etcdraft.yaml down
 # Include CA
-docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml -f docker-compose-kafka.yaml -f docker-compose-ca.yaml down
+docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml -f docker-compose-etcdraft.yaml -f docker-compose-ca.yaml down
 # 清理
 # fabric-docker-clean.sh
 ```
