@@ -11,6 +11,7 @@
 ```shell script
 # fabric-bootstrap-crypto-generate.sh
 cryptogen generate --config=./crypto-config.yaml
+cp -r ../crypto-config/ordererOrganizations ./crypto-config/
 ```
 
 - configtx
