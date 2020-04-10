@@ -22,7 +22,7 @@ export FABRIC_CFG_PATH=$PWD && configtxgen -printOrg Org3MSP > ../channel-artifa
 ```
 
 
-#### 配置Org3
+#### 更新通道配置
 
 - 获取配置
 ```shell script
@@ -75,4 +75,13 @@ export CORE_PEER_ADDRESS=peer0.org2.example.com:9051
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
 peer channel update -f org3_update_in_envelope.pb -c $CHANNEL_NAME -o orderer.example.com:7050 --tls --cafile $ORDERER_CA
+```
+
+#### 将 Org3 加入通道
+
+- 启动org3 网络
+
+```shell script
+# ./fabric-docker-up.sh
+docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml up -d
 ```
