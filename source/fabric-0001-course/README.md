@@ -14,38 +14,9 @@
 
 #### 示例说明
 
-> 链码语言
-
-* `node`
-
-> 状态存储
-
-* `goleveldb`
-
-> 排序服务
-
-* `solo`
-
-> 组织 
-
-* `Org1`
-* `Org2`
-* `Order`
-
-> 节点 
-
-* `peer0.org1.example.com`
-* `peer1.org1.example.com`
-* `peer0.org2.example.com`
-* `peer1.org2.example.com`
-
-> 排序节点 
-
-* `orderer.example.com`
-
-> CA
-
-* `无`
+|    链码    |    状态存储    |    排序服务    |    组织    |    节点    |    排序节点    |    CA    |    集群    |
+|  ----  |  ----  |  ----  |  ----  |  ----  |  ----  |  ----  |  ----  |
+|    node(mycc)    |   goleveldb     |   solo     |   Org(1~2)   |   peer(0~1).org(1~2).example.com     |   orderer.example.com     |   无     |    单机环境    |
 
 > 单机环境
 
