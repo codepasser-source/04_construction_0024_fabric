@@ -6,8 +6,16 @@
 
 #### 生成Org3构件
 
+- crypto
+
 ```shell script
 # fabric-bootstrap-crypto-generate.sh
 cryptogen generate --config=./crypto-config.yaml
 ```
 
+- configtx
+
+```shell script
+# fabric-bootstrap-configtx-channel.sh
+export FABRIC_CFG_PATH=$PWD && configtxgen -printOrg Org3MSP > ../channel-artifacts/org3.json
+```
