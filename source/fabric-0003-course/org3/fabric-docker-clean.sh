@@ -10,10 +10,8 @@ echo
 echo "##########################################################"
 echo "##### Clean channel artifacts ############################"
 echo "##########################################################"
-rm -rf ../channel-artifacts/org3.json
-rm -rf ../channel-artifacts/config_block.pb
-rm -rf ../channel-artifacts/config.json
-rm -rf ../channel-artifacts/modified_config.json
+rm -rf ../channel-artifacts/*.json
+rm -rf ../channel-artifacts/*.pb
 
 #echo
 #echo "##########################################################"

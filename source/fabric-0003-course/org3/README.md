@@ -26,15 +26,15 @@ export FABRIC_CFG_PATH=$PWD && configtxgen -printOrg Org3MSP > ../channel-artifa
 
 - 获取配置
 ```shell script
-#../fabric-docker-cli.sh
+# ../fabric-docker-cli.sh
 docker exec -it cli bash
 
-#../script/cli-peer-org3.sh
+# ../script/cli-peer-org3.sh
 export CHANNEL_NAME=fabric-course
 export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 export CORE_PEER_LOCALMSPID=Org1MSP
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
-export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
 export ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
 peer channel fetch config config_block.pb -o orderer.example.com:7050 -c $CHANNEL_NAME --tls --cafile $ORDERER_CA
 ```
@@ -42,6 +42,7 @@ peer channel fetch config config_block.pb -o orderer.example.com:7050 -c $CHANNE
 - 修改配置
 
 ```shell script
+# ../script/cli-peer-org3.sh
 # 剪裁
 configtxlator proto_decode --input config_block.pb --type common.Block | jq .data.data[0].payload.data.config > config.json
 jq -s '.[0] * {"channel_group":{"groups":{"Application":{"groups": {"Org3MSP":.[1]}}}}}' config.json ./channel-artifacts/org3.json > modified_config.json
@@ -50,4 +51,11 @@ configtxlator proto_encode --input modified_config.json --type common.Config --o
 mv config_block.pb ./channel-artifacts/
 mv config.json ./channel-artifacts/
 mv modified_config.json ./channel-artifacts/
+```
+
+- 签名并提交配置更新
+
+```shell script
+# ../script/cli-peer-org3.sh
+peer channel signconfigtx -f org3_update_in_envelope.pb
 ```
