@@ -1,6 +1,0 @@
-/crypto-config/ordererOrganizations
-/crypto-config/peerOrganizations
-/channel-artifacts/*.block
-/channel-artifacts/*.tx
-/application/connection-org*.json
-/application/connection-org*.yaml
