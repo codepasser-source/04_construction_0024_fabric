@@ -5,14 +5,13 @@ echo "##### Clean crypto config ################################"
 echo "##########################################################"
 rm -rf ./crypto-config/ordererOrganizations
 rm -rf ./crypto-config/peerOrganizations
-#
-#echo
-#echo "##########################################################"
-#echo "##### Clean channel artifacts ############################"
-#echo "##########################################################"
-#rm -rf ./channel-artifacts/*.block
-#rm -rf ./channel-artifacts/*.tx
-#
+
+echo
+echo "##########################################################"
+echo "##### Clean channel artifacts ############################"
+echo "##########################################################"
+rm -rf ../channel-artifacts/org3.json
+
 #echo
 #echo "##########################################################"
 #echo "##### Clean application cpp ##############################"
