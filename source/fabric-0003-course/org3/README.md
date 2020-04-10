@@ -45,6 +45,8 @@ peer channel fetch config config_block.pb -o orderer.example.com:7050 -c $CHANNE
 # 剪裁
 configtxlator proto_decode --input config_block.pb --type common.Block | jq .data.data[0].payload.data.config > config.json
 jq -s '.[0] * {"channel_group":{"groups":{"Application":{"groups": {"Org3MSP":.[1]}}}}}' config.json ./channel-artifacts/org3.json > modified_config.json
+configtxlator proto_encode --input config.json --type common.Config --output config.pb
+configtxlator proto_encode --input modified_config.json --type common.Config --output modified_config.pb
 mv config_block.pb ./channel-artifacts/
 mv config.json ./channel-artifacts/
 mv modified_config.json ./channel-artifacts/
