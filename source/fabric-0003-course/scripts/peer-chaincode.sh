@@ -1,3 +1,4 @@
+#!/bin/bash
 export CHANNEL_NAME=fabric-course
 echo "#################################################################"
 echo "#######    Chaincode invoking peer0.org1.example.com:7051   #####"

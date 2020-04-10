@@ -3,5 +3,6 @@
 /channel-artifacts/*.block
 /channel-artifacts/*.tx
 /channel-artifacts/*.json
+/channel-artifacts/*.pb
 /application/connection-org*.json
 /application/connection-org*.yaml
