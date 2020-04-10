@@ -99,6 +99,7 @@ docker exec c3 ping -c 2 c1
 ```shell script
 docker stop c1
 docker rm c1
+docker node rm <node id>
 docker swarm leave -f
 docker network rm docker_gwbridge
 docker network ls
