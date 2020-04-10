@@ -29,7 +29,7 @@ export FABRIC_CFG_PATH=$PWD && configtxgen -printOrg Org3MSP > ../channel-artifa
 # ../fabric-docker-cli.sh
 docker exec -it cli bash
 
-# ../script/cli-peer-org3.sh
+# ../script/cli-peer-org3-update.sh
 export CHANNEL_NAME=fabric-course
 export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 export CORE_PEER_LOCALMSPID=Org1MSP
@@ -42,7 +42,7 @@ peer channel fetch config config_block.pb -o orderer.example.com:7050 -c $CHANNE
 - 修改配置
 
 ```shell script
-# ../script/cli-peer-org3.sh
+# ../script/cli-peer-org3-update.sh
 # 剪裁
 configtxlator proto_decode --input config_block.pb --type common.Block | jq .data.data[0].payload.data.config > config.json
 jq -s '.[0] * {"channel_group":{"groups":{"Application":{"groups": {"Org3MSP":.[1]}}}}}' config.json ./channel-artifacts/org3.json > modified_config.json
@@ -57,7 +57,7 @@ configtxlator proto_encode --input org3_update_in_envelope.json --type common.En
 - 签名并提交配置更新
 
 ```shell script
-# ../script/cli-peer-org3.sh
+# ../script/cli-peer-org3-update.sh
 export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 export CORE_PEER_LOCALMSPID=Org1MSP
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
@@ -84,4 +84,32 @@ peer channel update -f org3_update_in_envelope.pb -c $CHANNEL_NAME -o orderer.ex
 ```shell script
 # ./fabric-docker-up.sh
 docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml up -d
+```
+
+- 加入通道
+
+```shell script
+# ../script/cli-peer-org3-join.sh
+## Channel fetch orderer.example.com:7050
+export CHANNEL_NAME=fabric-course
+export ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+export CORE_PEER_ADDRESS=peer0.org3.example.com:11051
+export CORE_PEER_LOCALMSPID=Org3MSP
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
+peer channel fetch 0 $CHANNEL_NAME.block -o orderer.example.com:7050 -c $CHANNEL_NAME --tls --cafile $ORDERER_CA
+
+## Channel join peer0.org3.example.com:11051
+export CORE_PEER_ADDRESS=peer0.org3.example.com:11051
+export CORE_PEER_LOCALMSPID=Org3MSP
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
+peer channel join -b $CHANNEL_NAME.block
+
+### Channel join peer1.org3.example.com:12051
+export CORE_PEER_ADDRESS=peer1.org3.example.com:12051
+export CORE_PEER_LOCALMSPID=Org3MSP
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/peers/peer1.org3.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
+peer channel join -b $CHANNEL_NAME.block
 ```
