@@ -12,6 +12,8 @@ volumes:
 
 networks:
   course:
+    external:
+      name: fabric_course
 
 services:
 
