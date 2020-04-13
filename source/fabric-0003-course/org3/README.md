@@ -113,3 +113,10 @@ export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
 peer channel join -b $CHANNEL_NAME.block
 ```
+
+#### 升级链码,添加org3背书策略
+
+```shell script
+# ../cli-peer-org3-chaincode.sh
+
+```
