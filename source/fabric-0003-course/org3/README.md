@@ -114,7 +114,7 @@ export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/pee
 peer channel join -b $CHANNEL_NAME.block
 ```
 
-#### 升级链码,添加org3背书策略
+#### 升级链码,修改背书策略
 
 ```shell script
 # ../cli-peer-org3-chaincode.sh
