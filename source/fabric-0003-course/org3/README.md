@@ -89,6 +89,7 @@ docker-compose -f docker-compose.yaml -f docker-compose-couch.yaml up -d
 - 加入通道
 
 ```shell script
+# ./fabric-docker-cli.sh
 # ../script/cli-peer-org3-join.sh
 ## Channel fetch orderer.example.com:7050
 export CHANNEL_NAME=fabric-course
