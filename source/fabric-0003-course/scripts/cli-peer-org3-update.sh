@@ -42,7 +42,7 @@ export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/pee
 peer channel signconfigtx -f org3_update_in_envelope.pb
 
 echo "#################################################################"
-echo "#######    Channel signconfigtx peer0.org1.example.com:7051 #####"
+echo "#######    Channel signconfigtx peer0.org2.example.com:9051 #####"
 echo "#################################################################"
 export CORE_PEER_ADDRESS=peer0.org2.example.com:9051
 export CORE_PEER_LOCALMSPID=Org2MSP
