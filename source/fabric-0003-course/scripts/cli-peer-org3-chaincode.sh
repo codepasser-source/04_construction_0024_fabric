@@ -79,7 +79,7 @@ peer chaincode install -n fabcar -v 2.0 -p github.com/chaincode/fabcar/go/
 peer chaincode list --installed
 
 echo "#################################################################"
-echo "#######    Chaincode instantiate orderer.example.com:7050    ####"
+echo "#######    Chaincode upgrade orderer.example.com:7050    ########"
 echo "#################################################################"
 export CHANNEL_NAME=fabric-course
 export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
