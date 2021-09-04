@@ -88,10 +88,13 @@ docker ps -a
 
 # 进入容器
 docker exec c1 ping -c 2 c2
+docker exec -it c1 sh
 
 docker exec c2 ping -c 2 c1
+docker exec -it c2 sh
 
 docker exec c3 ping -c 2 c1
+docker exec -it c3 sh
 ```
 
 > 环境清理
