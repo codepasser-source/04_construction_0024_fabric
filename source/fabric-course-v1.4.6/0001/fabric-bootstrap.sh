@@ -19,3 +19,13 @@ echo "
 
 █████ █████ █████ █████ █████ █████ █████
 ";
+
+
+# ====================== shutdown
+
+./fabric-shutdown.sh
+./fabric-clean.sh
+
+# ====================== bootstrap
+
+./01.bootstrap-crypto-generate.sh
