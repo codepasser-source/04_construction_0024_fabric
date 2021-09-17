@@ -21,10 +21,10 @@ echo "
 ";
 
 
-# ====================== shutdown
+# ====================== clean
 
-./fabric-shutdown.sh
-./fabric-clean.sh
+#./fabric-shutdown.sh
+#./fabric-clean.sh
 
 # ====================== bootstrap
 
