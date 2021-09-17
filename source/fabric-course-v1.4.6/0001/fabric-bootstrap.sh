@@ -21,11 +21,29 @@ echo "
 ";
 
 
-# ====================== clean
+# ====================== shutdown : 停止
 
 #./fabric-shutdown.sh
+
+# ====================== cleanup : 清理
+
 #./fabric-clean.sh
 
-# ====================== bootstrap
+# ====================== bootstrap : 生成网络构件
 
+# Generate certificates : 生成网络密钥
 ./01.bootstrap-crypto-generate.sh
+
+# Generating Orderer Genesis block [Solo] : 生成创世区块[排序服务:Solo]
+# ./03.bootstrap-configtx-genesis-solo.sh
+
+# Generating channel configuration transaction 'channel.tx' : 生成通道配置交易
+# ./04.bootstrap-configtx-channel.sh
+
+# Generating anchor peer update : 更新锚节点
+# ./05.bootstrap-configtx-anchors.sh
+
+# ====================== startup : 启动
+
+# Docker compose up
+# ./06.bootstrap-docker-up.sh
