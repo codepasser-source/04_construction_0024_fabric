@@ -26,3 +26,10 @@ echo "##### Clean cryptogen certificates #######################"
 echo "##########################################################"
 rm -rf ./crypto-config/ordererOrganizations
 rm -rf ./crypto-config/peerOrganizations
+
+echo
+echo "##########################################################"
+echo "##### Clean configtx channel artifacts ###################"
+echo "##########################################################"
+rm -rf ./channel-artifacts/*.block
+rm -rf ./channel-artifacts/*.tx
