@@ -35,13 +35,13 @@ echo "
 ./01.bootstrap-crypto-generate.sh
 
 # Generating Orderer Genesis block [Solo] : 生成创世区块[排序服务:Solo]
-# ./03.bootstrap-configtx-genesis-solo.sh
+./02.bootstrap-configtx-genesis-solo.sh
 
 # Generating channel configuration transaction 'channel.tx' : 生成通道配置交易
-# ./04.bootstrap-configtx-channel.sh
+./03.bootstrap-configtx-channel.sh
 
 # Generating anchor peer update : 更新锚节点
-# ./05.bootstrap-configtx-anchors.sh
+./04.bootstrap-configtx-anchors.sh
 
 # ====================== startup : 启动
 
