@@ -2,5 +2,7 @@
 echo "##########################################################"
 echo "#####  Generating Orderer Genesis block [Solo] ###########"
 echo "##########################################################"
-# configtxgen -profile TwoOrgsOrdererGenesis -channelID $SYS_CHANNEL -outputBlock ./channel-artifacts/genesis.block
-configtxgen -profile TwoOrgsOrdererGenesis -channelID course-sys-channel -outputBlock ./channel-artifacts/genesis.block
+SYS_CHANNEL="byfn-sys-channel"
+echo "Script variable : SYS_CHANNEL = " $SYS_CHANNEL
+
+configtxgen -profile TwoOrgsOrdererGenesis -channelID $SYS_CHANNEL -outputBlock ./channel-artifacts/genesis.block
