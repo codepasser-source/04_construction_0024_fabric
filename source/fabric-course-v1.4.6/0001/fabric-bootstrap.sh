@@ -21,14 +21,6 @@ echo "
 ";
 
 
-# ====================== shutdown : 停止
-
-#./fabric-shutdown.sh
-
-# ====================== cleanup : 清理
-
-#./fabric-clean.sh
-
 # ====================== bootstrap : 生成网络构件
 
 # Generate certificates : 生成网络认证密钥
@@ -46,4 +38,4 @@ echo "
 # ====================== startup : 启动
 
 # Docker compose up
-./05.bootstrap-docker-up.sh
+./05.bootstrap-docker-compose.sh

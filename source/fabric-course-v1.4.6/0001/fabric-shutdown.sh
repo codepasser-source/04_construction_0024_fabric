@@ -19,3 +19,13 @@ echo "
 
 █████ █████ █████ █████ █████ █████ █████
 ";
+
+# ====================== shutdown : 停止
+
+./00.shutdown-docker-compose.sh
+
+# ====================== cleanup : 清理
+rm -rf ./crypto-config/ordererOrganizations
+rm -rf ./crypto-config/peerOrganizations
+rm -rf ./channel-artifacts/*.block
+rm -rf ./channel-artifacts/*.tx
