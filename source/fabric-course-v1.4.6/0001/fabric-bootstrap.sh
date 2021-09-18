@@ -31,16 +31,16 @@ echo "
 
 # ====================== bootstrap : 生成网络构件
 
-# Generate certificates : 生成网络密钥
+# Generate certificates : 生成网络认证密钥
 ./01.bootstrap-crypto-generate.sh
 
-# Generating Orderer Genesis block [Solo] : 生成创世区块[排序服务:Solo]
+# Generating Orderer Genesis block [Solo] : 生成通道所需创世区块[排序服务:Solo]
 ./02.bootstrap-configtx-genesis-solo.sh
 
-# Generating channel configuration transaction 'channel.tx' : 生成通道配置交易
+# Generating channel configuration transaction 'channel.tx' : 生成通道所需交易配置
 ./03.bootstrap-configtx-channel.sh
 
-# Generating anchor peer update : 更新锚节点
+# Generating anchor peer update : 生成锚节点更新所需配置
 ./04.bootstrap-configtx-anchors.sh
 
 # ====================== startup : 启动
