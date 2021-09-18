@@ -46,4 +46,4 @@ echo "
 # ====================== startup : 启动
 
 # Docker compose up
-# ./06.bootstrap-docker-up.sh
+./05.bootstrap-docker-up.sh
