@@ -11,6 +11,7 @@ volumes:
   peer1.org1.example.com:
   peer0.org2.example.com:
   peer1.org2.example.com:
+  cli:
 
 networks:
   byfn:
@@ -19,7 +20,7 @@ services:
 
   orderer.example.com:
     extends:
-      file:   base/docker-compose-base.yaml
+      file: base/docker-compose-base.yaml
       service: orderer.example.com
     container_name: orderer.example.com
     networks:
@@ -28,7 +29,7 @@ services:
   peer0.org1.example.com:
     container_name: peer0.org1.example.com
     extends:
-      file:  base/docker-compose-base.yaml
+      file: base/docker-compose-base.yaml
       service: peer0.org1.example.com
     networks:
       - byfn
@@ -36,7 +37,7 @@ services:
   peer1.org1.example.com:
     container_name: peer1.org1.example.com
     extends:
-      file:  base/docker-compose-base.yaml
+      file: base/docker-compose-base.yaml
       service: peer1.org1.example.com
     networks:
       - byfn
@@ -44,7 +45,7 @@ services:
   peer0.org2.example.com:
     container_name: peer0.org2.example.com
     extends:
-      file:  base/docker-compose-base.yaml
+      file: base/docker-compose-base.yaml
       service: peer0.org2.example.com
     networks:
       - byfn
@@ -52,7 +53,7 @@ services:
   peer1.org2.example.com:
     container_name: peer1.org2.example.com
     extends:
-      file:  base/docker-compose-base.yaml
+      file: base/docker-compose-base.yaml
       service: peer1.org2.example.com
     networks:
       - byfn
@@ -79,11 +80,12 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: /bin/bash
     volumes:
-        - /var/run/:/host/var/run/
-        - ./../chaincode/:/opt/gopath/src/github.com/chaincode
-        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
-        - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
-        - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+      - /var/run/:/host/var/run/
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts/
+      - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - ./chaincode:/opt/gopath/src/github.com/chaincode/
+      - cli:/etc/hyperledger/fabric/
     depends_on:
       - orderer.example.com
       - peer0.org1.example.com
